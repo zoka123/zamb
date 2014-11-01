@@ -6,6 +6,7 @@ Use \Response;
 Use \Redirect;
 Use \Lang;
 Use \Url;
+Use \Input;
 
 abstract class AdminCRUDController extends AdminController implements AdminCRUDInterface
 {
