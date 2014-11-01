@@ -3,6 +3,7 @@
 namespace Zantolov\Zamb\Controller;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\View;
 
 class BaseController extends Controller
 {
