@@ -2,6 +2,11 @@
 
 namespace Zantolov\Zamb\Controller;
 
+Use \Response;
+Use \Redirect;
+Use \Lang;
+Use \Url;
+
 abstract class AdminCRUDController extends AdminController implements AdminCRUDInterface
 {
 
