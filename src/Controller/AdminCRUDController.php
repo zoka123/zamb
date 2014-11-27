@@ -125,7 +125,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
 
 
     /**
-     * Store a newly created user in storage.
+     * Store a newly created model in storage.
      * @return Response
      */
     public function postStore()
