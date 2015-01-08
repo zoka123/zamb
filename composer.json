@@ -15,7 +15,7 @@
 
     "autoload": {
         "psr-4": {
-            "Zantolov\\Zamb\\": "src/"
+            "Zantolov\\Zamb\\": "src/Zantolov/Zamb"
         }
     }
 }
