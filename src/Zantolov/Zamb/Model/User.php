@@ -13,9 +13,6 @@ class User extends BaseModel implements ConfideUserInterface
 
     protected $table = 'users';
 
-    /** @var Shopper $shopper */
-    protected $shopper = null;
-
     protected $fillable = array('username', 'email', 'confirmed', 'password', 'password_confirmation');
 
     public $autoHydrateEntityFromInput = true; // hydrates on new entries' validation
