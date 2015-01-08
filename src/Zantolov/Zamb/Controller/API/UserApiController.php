@@ -1,6 +1,6 @@
 <?php
 
-namespace Zantolov\Zamb\Controller\Api;
+namespace Zantolov\Zamb\Controller\API;
 
 use Zantolov\Zamb\Controller\BaseApiController;
 use App;
