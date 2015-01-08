@@ -9,7 +9,10 @@ use Redirect;
 class Zamb
 {
 
-    public static function registerPublicRoutes()
+    /**
+     * Register default Zamb app routes
+     */
+    public static function registerAppRoutes()
     {
         // Image output route
         Route::get('image/{variation}/{id}-{filename}', array(
@@ -19,9 +22,11 @@ class Zamb
 
         // Static page output default route
         Route::get('{slug}', 'Zantolov\Zamb\Controller\StaticPagesController@show')->where(array('slug' => '[a-z1-9-]*'));
-
     }
 
+    /**
+     * Register default Admin routes
+     */
     public static function registerAdminRoutes()
     {
         Route::model('user', 'User');
@@ -134,16 +139,25 @@ class Zamb
 
 
         // Check for role on all admin routes
-        Entrust::routeNeedsRole('admin*', array('admin'), function () {
-            Redirect::guest(route('Public.Login'));
-        });
-
+        #Entrust::routeNeedsRole('admin*', array('admin'));
         // Check for permissions on admin actions
         #Entrust::routeNeedsPermission('admin/users*', 'manage_users');
         #Entrust::routeNeedsPermission('admin/roles*', 'manage_roles');
 
     }
 
+
+    /**
+     * Register all API routes
+     */
+    public static function registerApiRoutes()
+    {
+        self::registerUserApiRoutes();
+    }
+
+    /**
+     * Register User Api Routes that are used in authorization and registration
+     */
     public static function registerUserApiRoutes()
     {
         Route::controller('api/user', 'Zantolov\Zamb\Controller\API\UserApiController', array(
@@ -153,6 +167,27 @@ class Zamb
             'getCheckUsername'      => 'Api.CheckUsername',
             'getCheckEmail'         => 'Api.CheckEmail',
         ));
+    }
+
+    /**
+     * Register Zamb specific filters
+     */
+    public static function registerZambFilters()
+    {
+        Route::filter('admin_role', function () {
+            if (!Entrust::hasRole('admin')) {
+                \App::abort(401, 'Not allowed');
+            }
+        });
+    }
+
+    /**
+     * Setup acces rules, i.e. routes and filters bindings
+     */
+    public static function registerAccessRules()
+    {
+        Route::when('admin/*', 'auth|admin_role');
+        Route::when('api/secure/*', 'auth');
     }
 
 }
