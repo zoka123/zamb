@@ -14,21 +14,21 @@
     {{ Form::model($model, array('route' => array('Admin.Images.Store', $model->id), 'files' => true)) }}
     @endif
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
     'label'=>'Title',
     'type'=>'text',
     'placeholder'=>'Title',
     'name'=>'title',
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
     'label'=>'Caption',
     'type'=>'text',
     'placeholder'=>'Caption',
     'name'=>'caption',
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
     'label'=>'File',
     'type'=>'file',
     'name'=>'file',
@@ -38,7 +38,7 @@
     <hr>
 
     <button type="submit" class="btn btn-success">
-        <i class="fa fa-check"></i> {{{ Lang::get('button.submit') }}}
+        <i class="fa fa-check"></i> {{{ Lang::get('zamb::button.submit') }}}
     </button>
 
     <input type="hidden" name="iframe" value="1"/>

@@ -7,6 +7,7 @@ use DB;
 use Input;
 use Redirect;
 use Image;
+use Zantolov\Zamb\Repository\ImageRepository;
 
 class AdminImagesController extends \Zantolov\Zamb\Controller\AdminCRUDController
 {
@@ -17,7 +18,7 @@ class AdminImagesController extends \Zantolov\Zamb\Controller\AdminCRUDControlle
     protected function afterConstruct()
     {
         parent::afterConstruct();
-        $this->repository = new \Repository\ImageRepository();
+        $this->repository = new ImageRepository();
         $this->templateRoot = 'zamb::Admin.Images';
         $this->baseRoute = 'Admin.Images';
     }
@@ -31,10 +32,8 @@ class AdminImagesController extends \Zantolov\Zamb\Controller\AdminCRUDControlle
     {
         $items = DB::table('images')->select(array('images.id', 'images.id as filename', 'images.title', 'images.created_at'));
 
-        return Datatables::of($items)
-            ->add_column('actions', $this->getActions(array(self::EDIT_ACTION, self::DELETE_ACTION)))
-            ->edit_column('filename', '<img src="{{{ \Helpers\ImageHelper::getImageUrlById($id, \'thumbnail\') }}}" />')
-            //->remove_column('id')
+        return Datatables::of($items)->add_column('actions', $this->getActions(array(self::EDIT_ACTION, self::DELETE_ACTION)))->edit_column('filename',
+                '<img src="{{{ \Helpers\ImageHelper::getImageUrlById($id, \'thumbnail\') }}}" />')//->remove_column('id')
             ->make();
     }
 
@@ -51,6 +50,7 @@ class AdminImagesController extends \Zantolov\Zamb\Controller\AdminCRUDControlle
         if (empty($file)) {
             /** @var \Image $model */
             $model->errors()->add('file', 'File not chosen');
+
             return Redirect::back()->withErrors($model->errors())->withInput();
         } else {
             $model = $this->repository->getNewModelByUploadedFile($file);
@@ -59,9 +59,11 @@ class AdminImagesController extends \Zantolov\Zamb\Controller\AdminCRUDControlle
         if ($model->updateUniques()) {
             $this->repository->attachImageFileToModel($model, $file);
             $this->processRelatedEntities($model);
+
             return \Illuminate\Http\Response::create($this->getSuccessJSResponse());
         } else {
             dd($model->errors());
+
             return Redirect::back()->withErrors($model->errors())->withInput();
         }
     }
@@ -88,6 +90,7 @@ class AdminImagesController extends \Zantolov\Zamb\Controller\AdminCRUDControlle
 
         if ($model->updateUniques()) {
             $this->processRelatedEntities($model);
+
             return \Illuminate\Http\Response::create($this->getSuccessJSResponse());
         } else {
             return Redirect::back()->withErrors($model->errors())->withInput();
@@ -98,6 +101,7 @@ class AdminImagesController extends \Zantolov\Zamb\Controller\AdminCRUDControlle
     public function getPopup()
     {
         $images = Image::all();
+
         return $this->render('zamb::Admin.Images.popup', compact('images'));
     }
 

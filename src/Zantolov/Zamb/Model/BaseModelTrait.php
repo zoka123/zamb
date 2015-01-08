@@ -46,6 +46,7 @@ trait BaseModelTrait
                 \Log::error('Related get method not defined: ' . $methodName);
             }
         }
+
         return $this->relatedIds[$relatedMethodGetter];
     }
 }

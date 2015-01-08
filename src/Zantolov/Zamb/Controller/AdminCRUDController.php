@@ -7,6 +7,7 @@ Use \Redirect;
 Use \Lang;
 Use \Url;
 Use \Input;
+use Zantolov\Zamb\Repository\RepositoryInterface;
 
 abstract class AdminCRUDController extends AdminController implements AdminCRUDInterface
 {
@@ -20,7 +21,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
 
     /**
      * Repository that CRUD Controller will use for Model operations
-     * @var \Repository\RepositoryInterface
+     * @var RepositoryInterface
      */
     protected $repository = null;
 
@@ -52,7 +53,6 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
         parent::__construct();
 
         $this->setParam('title', 'Administration');
-        $this->setParam('menu', new \Zamb\Menu\AdminMenu());
 
         //After construct events
         $this->afterConstruct();
@@ -231,10 +231,10 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
                     $return .= '<a href="' . URL::route($this->baseRoute . '.Create') . '" class="btn-sm btn btn-primary"><i class="fa fa-plus"></i></a>';
                     break;
                 case self::EDIT_ACTION:
-                    $return .= '<button data-toggle="iframe-modal"  data-iframe-src="' . URL::route($this->baseRoute . '.Edit') . '/{{{ $id }}}" class="btn-sm btn btn-primary"><i class="fa fa-edit"></i></button>';
+                    $return .= '<button data-toggle="iframe-modal"  data-iframe-src="' . \URL::route($this->baseRoute . '.Edit') . '/{{{ $id }}}" class="btn-sm btn btn-primary"><i class="fa fa-edit"></i></button>';
                     break;
                 case self::DELETE_ACTION:
-                    $return .= '<button data-toggle="iframe-modal"  data-iframe-src="' . URL::route($this->baseRoute . '.Delete') . '/{{{ $id }}}" class="btn-sm btn btn-primary"><i class="fa fa-trash"></i></button>';
+                    $return .= '<button data-toggle="iframe-modal"  data-iframe-src="' . \URL::route($this->baseRoute . '.Delete') . '/{{{ $id }}}" class="btn-sm btn btn-primary"><i class="fa fa-trash"></i></button>';
                     break;
             }
         }
@@ -270,7 +270,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
      */
     protected function getSuccessJSResponse()
     {
-        return '<script>parent.app.CRUDUpdated("' . Lang::get('notification.crud.success') . '");</script>';
+        return '<script>parent.app.CRUDUpdated("' . Lang::get('zamb::notification.crud.success') . '");</script>';
     }
 
 
@@ -280,7 +280,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
      */
     protected function getErrorJSResponse()
     {
-        return '<script>parent.app.CRUDUpdated("' . Lang::get('notification.crud.error') . '");</script>';
+        return '<script>parent.app.CRUDUpdated("' . Lang::get('zamb::notification.crud.error') . '");</script>';
     }
 
 

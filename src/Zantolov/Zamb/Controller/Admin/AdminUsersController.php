@@ -8,10 +8,10 @@ use DB;
 use Input;
 use Redirect;
 use User;
+use Zantolov\Zamb\Repository\UserRepository;
 
 class AdminUsersController extends AdminCRUDController
 {
-
 
     /**
      * Set CRUD Controller specifics
@@ -19,11 +19,10 @@ class AdminUsersController extends AdminCRUDController
     protected function afterConstruct()
     {
         parent::afterConstruct();
-        $this->repository = new \Repository\UserRepository();
+        $this->repository = new UserRepository();
         $this->templateRoot = 'zamb::Admin.Users';
         $this->baseRoute = 'Admin.Users';
     }
-
 
     /**
      * Override with custom params for this method
@@ -33,6 +32,7 @@ class AdminUsersController extends AdminCRUDController
     {
         $params = array('roles' => DB::table('roles')->lists('name', 'id'));
         $this->setParamsForMethod('getCreate', $params);
+
         return parent::getCreate();
     }
 
@@ -46,6 +46,7 @@ class AdminUsersController extends AdminCRUDController
     {
         $params = array('roles' => DB::table('roles')->lists('name', 'id'));
         $this->setParamsForMethod('getEdit', $params);
+
         return parent::getEdit($id);
     }
 
@@ -57,20 +58,13 @@ class AdminUsersController extends AdminCRUDController
     public function getData()
     {
 
-        $users = DB::table('users')
-            ->leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
-            ->leftjoin('roles', 'roles.id', '=', 'assigned_roles.role_id')
-            ->select(DB::raw('users.id, users.username, users.email, GROUP_CONCAT(DISTINCT roles.name) as rolename, users.confirmed, users.created_at as created_at'))
-            ->groupBy('users.username');
+        $users = DB::table('users')->leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')->leftjoin('roles', 'roles.id', '=',
+            'assigned_roles.role_id')->select(DB::raw('users.id, users.username, users.email, GROUP_CONCAT(DISTINCT roles.name) as rolename, users.confirmed, users.created_at as created_at'))->groupBy('users.username');
 
         $actions = $this->getActions(array(self::EDIT_ACTION, self::DELETE_ACTION));
 
-        return Datatables::of($users)
-            // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
-            ->edit_column('confirmed', '{{ DataTableHelper::prepareBooleanColumn($confirmed) }}')
-            ->add_column('actions', $actions)
-            ->remove_column('id')
-            ->make();
+        return Datatables::of($users)// ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
+        ->edit_column('confirmed', '{{ DataTableHelper::prepareBooleanColumn($confirmed) }}')->add_column('actions', $actions)->remove_column('id')->make();
     }
 
 
@@ -99,6 +93,7 @@ class AdminUsersController extends AdminCRUDController
 
         if ($model->updateUniques(User::$updateRules)) {
             $this->processRelatedEntities($model);
+
             return \Illuminate\Http\Response::create($this->getSuccessJSResponse());
         } else {
             return Redirect::back()->withErrors($model->errors())->withInput();

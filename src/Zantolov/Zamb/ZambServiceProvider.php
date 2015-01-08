@@ -39,6 +39,7 @@ class ZambServiceProvider extends ServiceProvider
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Zamb', 'Zantolov\Zamb\Facades\Zamb');
         });
+
     }
 
     /**

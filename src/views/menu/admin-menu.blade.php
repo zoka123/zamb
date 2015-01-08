@@ -1,0 +1,1 @@
+@extends('zamb::menu.default-bootstrap-top-menu')

@@ -5,6 +5,7 @@ namespace Zantolov\Zamb\Controller\Admin;
 use Zantolov\Zamb\Controller\AdminCRUDController;
 use Datatables;
 use DB;
+use Zantolov\Zamb\Repository\PermissionRepository;
 
 
 class AdminPermissionsController extends AdminCRUDController
@@ -16,7 +17,7 @@ class AdminPermissionsController extends AdminCRUDController
     protected function afterConstruct()
     {
         parent::afterConstruct();
-        $this->repository = new \Repository\PermissionRepository();
+        $this->repository = new PermissionRepository();
         $this->templateRoot = 'zamb::Admin.Permissions';
         $this->baseRoute = 'Admin.Permissions';
     }
@@ -30,9 +31,6 @@ class AdminPermissionsController extends AdminCRUDController
     {
         $roles = DB::table('permissions')->select(array('permissions.id', 'permissions.display_name', 'permissions.name', 'permissions.created_at'));
 
-        return Datatables::of($roles)
-            ->add_column('actions', $this->getActions(array(self::EDIT_ACTION, self::DELETE_ACTION)))
-            ->remove_column('id')
-            ->make();
+        return Datatables::of($roles)->add_column('actions', $this->getActions(array(self::EDIT_ACTION, self::DELETE_ACTION)))->remove_column('id')->make();
     }
 }

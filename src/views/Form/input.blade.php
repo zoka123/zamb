@@ -11,15 +11,15 @@ if(!empty($name) && !empty($errors) && $errors->first($name)){
 
 @if($type == 'checkbox')
     {{-- Load checkbox specific file --}}
-    @include('Form.checkbox')
+    @include('zamb::Form.checkbox')
 
 @elseif($type == 'select')
     {{-- Load checkbox specific file --}}
-    @include('Form.select')
+    @include('zamb::Form.select')
 
 @elseif($type == 'textarea')
     {{-- Load checkbox specific file --}}
-    @include('Form.textarea')
+    @include('zamb::Form.textarea')
 
 @else
     {{-- Render standard input --}}

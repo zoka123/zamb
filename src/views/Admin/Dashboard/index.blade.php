@@ -2,7 +2,8 @@
 
 @section('content')
     @parent
-    @include('Navigation.menu')
+    @include('zamb::menu.admin-menu')
+
 
     <div class="container">
 

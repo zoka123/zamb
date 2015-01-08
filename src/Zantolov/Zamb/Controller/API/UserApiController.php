@@ -59,21 +59,16 @@ class UserApiController extends BaseApiController
             }
 
             if (Config::get('confide::signup_email')) {
-                Mail::queueOn(
-                    Config::get('confide::email_queue'),
-                    Config::get('confide::email_account_confirmation'),
-                    compact('user'),
+                Mail::queueOn(Config::get('confide::email_queue'), Config::get('confide::email_account_confirmation'), compact('user'),
                     function ($message) use ($user) {
-                        $message
-                            ->to($user->email, $user->username)
-                            ->subject(Lang::get('confide::confide.email.account_confirmation.subject'));
-                    }
-                );
+                        $message->to($user->email, $user->username)->subject(Lang::get('confide::confide.email.account_confirmation.subject'));
+                    });
             }
 
             return new JsonResponse($this->getSuccessResponse(array('message' => Lang::get('confide::confide.alerts.account_created'))));
         } else {
             $error = $user->errors()->all(':message');
+
             return new JsonResponse($this->getErrorResponse(array('message' => $error)), 400);
         }
     }
@@ -81,6 +76,7 @@ class UserApiController extends BaseApiController
     public function postLogout()
     {
         Auth::logout();
+
         return new JsonResponse($this->getSuccessResponse(array('message' => 'Logout successful')));
     }
 
@@ -88,10 +84,12 @@ class UserApiController extends BaseApiController
     {
         if (Confide::forgotPassword(Input::get('email'))) {
             $notice_msg = Lang::get('confide.alerts.password_forgot');
+
             return new JsonResponse($this->getSuccessResponse(array('message' => $notice_msg)));
 
         } else {
             $error_msg = Lang::get('confide.alerts.wrong_password_forgot');
+
             return new JsonResponse($this->getErrorResponse(array('message' => $error_msg)), 400);
         }
     }
@@ -104,6 +102,7 @@ class UserApiController extends BaseApiController
     {
         $username = Input::get('username');
         $user = User::where(array('username' => $username))->first();
+
         return array('valid' => empty($user));
     }
 
@@ -115,6 +114,7 @@ class UserApiController extends BaseApiController
     {
         $email = Input::get('email');
         $user = User::where(array('email' => $email))->first();
+
         return array('valid' => empty($user));
     }
 

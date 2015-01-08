@@ -5,6 +5,7 @@ namespace Zantolov\Zamb\Controller\Admin;
 use Zantolov\Zamb\Controller\AdminCRUDController;
 use Datatables;
 use DB;
+use Zantolov\Zamb\Repository\TagRepository;
 
 class AdminTagsController extends AdminCRUDController
 {
@@ -15,7 +16,7 @@ class AdminTagsController extends AdminCRUDController
     protected function afterConstruct()
     {
         parent::afterConstruct();
-        $this->repository = new \Repository\TagRepository();
+        $this->repository = new TagRepository();
         $this->templateRoot = 'zamb::Admin.Tags';
         $this->baseRoute = 'Admin.Tags';
     }
@@ -28,10 +29,7 @@ class AdminTagsController extends AdminCRUDController
     {
         $items = DB::table('tags')->select(array('id', 'name'));
 
-        return Datatables::of($items)
-            // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
-            ->add_column('actions', $this->getActions(array(self::EDIT_ACTION, self::DELETE_ACTION)))
-            ->remove_column('id')
-            ->make();
+        return Datatables::of($items)// ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
+            ->add_column('actions', $this->getActions(array(self::EDIT_ACTION, self::DELETE_ACTION)))->remove_column('id')->make();
     }
 }

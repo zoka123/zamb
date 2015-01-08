@@ -11,21 +11,21 @@
 {{ Form::model($model, array('route' => array('Admin.StaticPages.Store', $model->id))) }}
 @endif
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Title',
         'type'=>'text',
         'placeholder'=>'Title',
         'name'=>'title',
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
             'label'=>'Slug',
             'type'=>'text',
             'placeholder'=>'Slug',
             'name'=>'slug',
         ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label' => 'Body',
         'type' => 'textarea',
         'class' => 'full-width wysihtml5',
@@ -34,7 +34,7 @@
         'name' => 'body',
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
             'label'=>'Active',
             'type'=>'select',
             'name'=>'active',
@@ -45,7 +45,7 @@
     <hr>
 
     <button type="submit" class="btn btn-success">
-    <i class="fa fa-check"></i> {{{ Lang::get('button.submit') }}}
+    <i class="fa fa-check"></i> {{{ Lang::get('zamb::button.submit') }}}
     </button>
 
     <input type="hidden" name="iframe" value="1"/>

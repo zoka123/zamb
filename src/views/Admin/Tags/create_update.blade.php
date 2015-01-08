@@ -11,7 +11,7 @@
 {{ Form::model($model, array('route' => array('Admin.Tags.Store', $model->id))) }}
 @endif
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Name',
         'type'=>'text',
         'placeholder'=>'Name',
@@ -21,7 +21,7 @@
     <hr>
 
     <button type="submit" class="btn btn-success">
-    <i class="fa fa-check"></i> {{{ Lang::get('button.submit') }}}
+    <i class="fa fa-check"></i> {{{ Lang::get('zamb::button.submit') }}}
     </button>
 
     <input type="hidden" name="iframe" value="1"/>

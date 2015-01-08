@@ -2,28 +2,28 @@
 
 @section('content')
     @parent
-    @include('Navigation.menu')
-
+    @include('zamb::menu.admin-menu')
 
     <div class="container">
 
         <div class="notifications"></div>
 
         <div class="text-right">
-            <button class="btn btn-success" data-toggle="iframe-modal"  data-iframe-src="{{ URL::route('Admin.Permissions.Create') }}" >
-                <i class="fa fa-plus"></i> {{{ Lang::get('button.create') }}}
+            <button class="btn btn-success" data-toggle="iframe-modal"
+                    data-iframe-src="{{ URL::route('Admin.Permissions.Create') }}">
+                <i class="fa fa-plus"></i> {{{ Lang::get('zamb::button.create') }}}
             </button>
         </div>
         <hr>
 
         <table class="datatables table">
             <thead>
-                <tr>
-                    <th>{{{ Lang::get('Admin/Permissions/table.display_name') }}}</th>
-                    <th>{{{ Lang::get('Admin/Permissions/table.name') }}}</th>
-                    <th>{{{ Lang::get('Admin/table.created_at') }}}</th>
-                    <th class="actions-column">{{{ Lang::get('table.actions') }}}</th>
-                </tr>
+            <tr>
+                <th>{{{ Lang::get('zamb::Admin/Permissions/table.display_name') }}}</th>
+                <th>{{{ Lang::get('zamb::Admin/Permissions/table.name') }}}</th>
+                <th>{{{ Lang::get('zamb::Admin/table.created_at') }}}</th>
+                <th class="actions-column">{{{ Lang::get('zamb::table.actions') }}}</th>
+            </tr>
             </thead>
         </table>
     </div>
@@ -32,7 +32,7 @@
 
 @section('scripts')
     @parent
-	<script>
-	    var oTable = initDatatables($('.datatables'), "{{ URL::to('admin/permissions/data') }}");
-	</script>
+    <script>
+        var oTable = initDatatables($('.datatables'), "{{ URL::to('admin/permissions/data') }}");
+    </script>
 @stop

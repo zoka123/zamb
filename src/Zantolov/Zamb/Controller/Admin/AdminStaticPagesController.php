@@ -5,6 +5,7 @@ namespace Zantolov\Zamb\Controller\Admin;
 use Zantolov\Zamb\Controller\AdminCRUDController;
 use Datatables;
 use DB;
+use Zantolov\Zamb\Repository\StaticPageRepository;
 
 class AdminStaticPagesController extends AdminCRUDController
 {
@@ -15,7 +16,7 @@ class AdminStaticPagesController extends AdminCRUDController
     protected function afterConstruct()
     {
         parent::afterConstruct();
-        $this->repository = new \Repository\StaticPageRepository();
+        $this->repository = new StaticPageRepository();
         $this->templateRoot = 'zamb::Admin.StaticPages';
         $this->baseRoute = 'Admin.StaticPages';
     }

@@ -11,14 +11,14 @@
 {{ Form::model($model, array('route' => array('Admin.Users.Store', $model->id))) }}
 @endif
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Username',
         'type'=>'text',
         'placeholder'=>'Username',
         'name'=>'username',
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Password',
         'type'=>'password',
         'placeholder'=>'Password',
@@ -26,7 +26,7 @@
         'skipOldInputs' => true,
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Password Confirmation',
         'type'=>'password',
         'placeholder'=>'Password Confirmation',
@@ -34,14 +34,14 @@
         'skipOldInputs' => true,
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Email',
         'type'=>'email',
         'placeholder'=>'Email',
         'name'=>'email',
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Role',
         'type'=>'select',
         'name'=>'roles[]',
@@ -51,7 +51,7 @@
         'multiple' => 'multiple',
     ))
 
-    @include('Form.input', array(
+    @include('zamb::Form.input', array(
         'label'=>'Confirmed',
         'type'=>'select',
         'name'=>'confirmed',
@@ -62,7 +62,7 @@
     <hr>
 
     <button type="submit" class="btn btn-success">
-    <i class="fa fa-check"></i> {{{ Lang::get('button.submit') }}}
+    <i class="fa fa-check"></i> {{{ Lang::get('zamb::button.submit') }}}
     </button>
 
     <input type="hidden" name="iframe" value="1"/>
