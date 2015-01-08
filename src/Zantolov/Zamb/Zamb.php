@@ -17,11 +17,11 @@ class Zamb
         // Image output route
         Route::get('image/{variation}/{id}-{filename}', array(
             'as'   => 'image.output',
-            'uses' => 'Zantolov\Zamb\Controller\ImagesController@output'
+            'uses' => 'Zantolov\Zamb\Controllers\ImagesController@output'
         ));
 
         // Static page output default route
-        Route::get('{slug}', 'Zantolov\Zamb\Controller\StaticPagesController@show')->where(array('slug' => '[a-z1-9-]*'));
+        Route::get('{slug}', 'Zantolov\Zamb\Controllers\StaticPagesController@show')->where(array('slug' => '[a-z1-9-]*'));
     }
 
     /**
@@ -38,7 +38,7 @@ class Zamb
         | User management routes
         |--------------------------------------------------------------------------
         */
-        Route::controller('users', 'Zantolov\Zamb\Controller\Admin\AdminUsersController', array(
+        Route::controller('users', 'Zantolov\Zamb\Controllers\Admin\AdminUsersController', array(
             'getIndex'    => 'Admin.Users.Index',
             'getCreate'   => 'Admin.Users.Create',
             'postStore'   => 'Admin.Users.Store',
@@ -55,7 +55,7 @@ class Zamb
         | Role management routes
         |--------------------------------------------------------------------------
         */
-        Route::controller('roles', 'Zantolov\Zamb\Controller\Admin\AdminRolesController', array(
+        Route::controller('roles', 'Zantolov\Zamb\Controllers\Admin\AdminRolesController', array(
             'getIndex'    => 'Admin.Roles.Index',
             'getCreate'   => 'Admin.Roles.Create',
             'postStore'   => 'Admin.Roles.Store',
@@ -72,7 +72,7 @@ class Zamb
         | Permissions management routes
         |--------------------------------------------------------------------------
         */
-        Route::controller('permissions', 'Zantolov\Zamb\Controller\Admin\AdminPermissionsController', array(
+        Route::controller('permissions', 'Zantolov\Zamb\Controllers\Admin\AdminPermissionsController', array(
             'getIndex'    => 'Admin.Permissions.Index',
             'getCreate'   => 'Admin.Permissions.Create',
             'postStore'   => 'Admin.Permissions.Store',
@@ -89,7 +89,7 @@ class Zamb
         | Static Page management routes
         |--------------------------------------------------------------------------
         */
-        Route::controller('static-pages', 'Zantolov\Zamb\Controller\Admin\AdminStaticPagesController', array(
+        Route::controller('static-pages', 'Zantolov\Zamb\Controllers\Admin\AdminStaticPagesController', array(
             'getIndex'    => 'Admin.StaticPages.Index',
             'getCreate'   => 'Admin.StaticPages.Create',
             'postStore'   => 'Admin.StaticPages.Store',
@@ -106,7 +106,7 @@ class Zamb
         | Tags management routes
         |--------------------------------------------------------------------------
         */
-        Route::controller('tags', 'Zantolov\Zamb\Controller\Admin\AdminTagsController', array(
+        Route::controller('tags', 'Zantolov\Zamb\Controllers\Admin\AdminTagsController', array(
             'getIndex'    => 'Admin.Tags.Index',
             'getCreate'   => 'Admin.Tags.Create',
             'postStore'   => 'Admin.Tags.Store',
@@ -124,7 +124,7 @@ class Zamb
         | Image routes
         |--------------------------------------------------------------------------
         */
-        Route::controller('images', 'Zantolov\Zamb\Controller\Admin\AdminImagesController', array(
+        Route::controller('images', 'Zantolov\Zamb\Controllers\Admin\AdminImagesController', array(
             'getIndex'    => 'Admin.Images.Index',
             'getCreate'   => 'Admin.Images.Create',
             'postStore'   => 'Admin.Images.Store',
@@ -160,7 +160,7 @@ class Zamb
      */
     public static function registerUserApiRoutes()
     {
-        Route::controller('api/user', 'Zantolov\Zamb\Controller\API\UserApiController', array(
+        Route::controller('api/user', 'Zantolov\Zamb\Controllers\API\UserApiController', array(
             'postLogin'             => 'Api.Login',
             'postRegister'          => 'Api.Register',
             'postForgottenPassword' => 'Api.ForgottenPassword',
