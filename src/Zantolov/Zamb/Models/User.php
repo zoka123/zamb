@@ -184,28 +184,4 @@ class User extends BaseModel implements ConfideUserInterface
             return false;
         }
     }
-
-
-    /**
-     * Returns an instance of related Shopper or empty Shopper model
-     * @return Shopper
-     */
-    public function getShopper()
-    {
-        if (empty($this->shopper)) {
-            $this->shopper = Shopper::where(array('user_id' => $this->id))->first();
-        }
-
-        if (empty($this->shopper)) {
-            $this->shopper = new Shopper();
-        }
-
-        return $this->shopper;
-    }
-
-
-    public function orders()
-    {
-        return Order::where(array('shopper_id' => $this->getShopper()->id));
-    }
 }
