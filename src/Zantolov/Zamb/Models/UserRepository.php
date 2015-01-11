@@ -4,6 +4,8 @@ namespace Zantolov\Zamb\Models;
 
 use Confide;
 use Config;
+use Hash;
+use Log;
 
 /**
  * Class UserRepository

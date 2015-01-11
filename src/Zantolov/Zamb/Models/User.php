@@ -6,6 +6,7 @@ use Zantolov\ZambEcommerce\Models\Shopper;
 use Zizaco\Confide\Facade as ConfideFacade;
 use Zizaco\Confide\ConfideUserInterface;
 use Zizaco\Entrust\HasRole;
+use Hash;
 
 class User extends BaseModel implements ConfideUserInterface
 {
