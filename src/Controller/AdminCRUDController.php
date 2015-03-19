@@ -2,6 +2,8 @@
 
 namespace Zantolov\Zamb\Controller;
 
+use Illuminate\Database\QueryException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 Use \Response;
 Use \Redirect;
 Use \Lang;
@@ -107,6 +109,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
     public function getIndex()
     {
         $params = $this->getParamsForMethod('getIndex');
+
         return $this->render($this->templateRoot . '.index', $params);
     }
 
@@ -120,6 +123,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
         $model = $this->repository->getNew();
         $params = $this->getParamsForMethod('getCreate');
         $params += compact('model');
+
         return $this->render($this->templateRoot . '.create_update', $params);
     }
 
@@ -133,6 +137,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
         $model = $this->repository->getNew();
         if ($model->updateUniques()) {
             $this->processRelatedEntities($model);
+
             return \Illuminate\Http\Response::create($this->getSuccessJSResponse());
         } else {
             return Redirect::back()->withErrors($model->errors())->withInput();
@@ -167,6 +172,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
         $model = $this->repository->findOrFail($id);
         $params = $this->getParamsForMethod('getEdit');
         $params += compact('model');;
+
         return $this->render($this->templateRoot . '.create_update', $params);
     }
 
@@ -182,6 +188,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
         $model = $this->repository->findOrFail($id);
         if ($model->updateUniques()) {
             $this->processRelatedEntities($model);
+
             return \Illuminate\Http\Response::create($this->getSuccessJSResponse());
         } else {
             return Redirect::back()->withErrors($model->errors())->withInput();
@@ -198,7 +205,8 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
     {
         $model = $this->repository->findOrFail($id);
         $params = $this->getParamsForMethod('getDelete');
-        $params += compact('model');;
+        $params += compact('model');
+
         return $this->render($this->templateRoot . '.delete', $params);
     }
 
@@ -211,8 +219,14 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
      */
     public function postDestroy($id)
     {
-        $this->repository->destroy($id);
+        try {
+            $this->repository->destroy($id);
+        } catch (QueryException $e) {
+            return Redirect::back()->with('error', 'Object can\'t be deleted since it is used elsewhere');
+        }
+
         $params = $this->getParamsForMethod('postDestroy');
+
         return \Illuminate\Http\Response::create($this->getSuccessJSResponse());
     }
 
@@ -238,6 +252,7 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
                     break;
             }
         }
+
         return $return;
     }
 
@@ -283,5 +298,27 @@ abstract class AdminCRUDController extends AdminController implements AdminCRUDI
         return '<script>parent.app.CRUDUpdated("' . Lang::get('notification.crud.error') . '");</script>';
     }
 
+
+    /**
+     * @param $roles
+     */
+    public function checkForRoles($roles, $type = 'ANY')
+    {
+        if (!is_array($roles)) {
+            $roles = array($roles);
+        }
+
+        foreach ($roles as $role) {
+            if ('ANY' == $type && \Entrust::hasRole($role)) {
+                return;
+            }
+
+            if ('ALL' == $type && !\Entrust::hasRole($role)) {
+                throw new AccessDeniedHttpException;
+            }
+        }
+
+        throw new AccessDeniedHttpException;
+    }
 
 }
